@@ -23,14 +23,22 @@ public class Publicacion {
         this.comentarios = new ArrayList<>();
     }
 
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
     public void agregarComentario(String emailAutor, String direccionIp, String texto) {
         Comentario nuevoComentario = new Comentario(emailAutor, direccionIp, texto);
         comentarios.add(nuevoComentario);
     }
 
-    public void borrarComentario(int posicion) {
-        if (posicion >= 0 && posicion < comentarios.size()) {
-            comentarios.remove(posicion);
+    public void borrarComentario(int posicionComentario) {
+        if (posicionComentario >= 0 && posicionComentario < comentarios.size()) {
+            comentarios.remove(posicionComentario);
         } else {
             System.out.println("Posicion de comentario no valida.");
         }
@@ -42,7 +50,7 @@ public class Publicacion {
         resultado += "Codigo: " + codigo + "\n";
         resultado += "Titulo: " + titulo + "\n";
         resultado += "Texto: " + texto + "\n";
-        resultado += "Creador: " + nombreCreador + "\n";
+        resultado += "Nombre del creador: " + nombreCreador + "\n";
         resultado += "Fecha de publicacion: " + fechaPublicacion + "\n";
         resultado += "Comentarios:\n";
 

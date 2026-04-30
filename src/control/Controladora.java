@@ -14,84 +14,76 @@ public class Controladora {
     }
 
     public void crearBlog(String nombre, String descripcion) {
-        Blog b = new Blog(nombre, descripcion);
-        blogs.put(b.getCodigo(), b);
+        Blog blogNuevo = new Blog(nombre, descripcion);
+        blogs.put(blogNuevo.getCodigo(), blogNuevo);
     }
 
     public void borrarBlog(int codigoBlog) {
-        if (!blogs.containsKey(codigoBlog)) {
-            throw new IllegalArgumentException("No existe un blog con ese codigo.");
-        }
-        blogs.remove(codigoBlog);
+        Blog blogBuscado = buscarBlog(codigoBlog);
+        blogs.remove(blogBuscado.getCodigo());
     }
 
     public Map<Integer, String> obtenerBlogs() {
         Map<Integer, String> resultado = new TreeMap<>();
 
-        for (Blog b : blogs.values()) {
-            resultado.put(b.getCodigo(), b.getNombre());
+        for (Blog blogActual : blogs.values()) {
+            resultado.put(blogActual.getCodigo(), blogActual.getNombre());
         }
 
         return resultado;
     }
-    
-    public void crearPublicacion(int codigoBlog, String titulo, String texto, String nombreCreador) {
-        if (!blogs.containsKey(codigoBlog)) {
-            throw new IllegalArgumentException("No existe un blog con ese codigo.");
-        }
 
-        blogs.get(codigoBlog).crearPublicacion(titulo, texto, nombreCreador);
+    public void crearPublicacion(int codigoBlog, String titulo, String texto, String nombreCreador) {
+        Blog blogBuscado = buscarBlog(codigoBlog);
+        blogBuscado.crearPublicacion(titulo, texto, nombreCreador);
     }
 
     public Map<Integer, String> obtenerPublicaciones(int codigoBlog) {
-        if (!blogs.containsKey(codigoBlog)) {
-            throw new IllegalArgumentException("No existe un blog con ese codigo.");
-        }
-
-        return blogs.get(codigoBlog).obtenerTitulosPublicaciones();
+        Blog blogBuscado = buscarBlog(codigoBlog);
+        return blogBuscado.obtenerTitulosPublicaciones();
     }
 
     public String obtenerPublicacion(int codigoBlog, int codigoPublicacion) {
-        if (!blogs.containsKey(codigoBlog)) {
-            throw new IllegalArgumentException("No existe un blog con ese codigo.");
-        }
-
-        return blogs.get(codigoBlog).obtenerPublicacion(codigoPublicacion);
+        Blog blogBuscado = buscarBlog(codigoBlog);
+        return blogBuscado.obtenerPublicacion(codigoPublicacion);
     }
-    public void agregarComentario(int codigoBlog, int codigoPublicacion, String email, String ip, String texto) {
-        if (!blogs.containsKey(codigoBlog)) {
-            throw new IllegalArgumentException("No existe un blog con ese codigo.");
-        }
 
-        blogs.get(codigoBlog).agregarComentario(codigoPublicacion, email, ip, texto);
+    public void agregarComentario(int codigoBlog, int codigoPublicacion, String email, String ip, String texto) {
+        Blog blogBuscado = buscarBlog(codigoBlog);
+        blogBuscado.agregarComentario(codigoPublicacion, email, ip, texto);
     }
 
     public void borrarComentario(int codigoBlog, int codigoPublicacion, int posicion) {
+        Blog blogBuscado = buscarBlog(codigoBlog);
+        blogBuscado.borrarComentario(codigoPublicacion, posicion);
+    }
+
+    private Blog buscarBlog(int codigoBlog) {
         if (!blogs.containsKey(codigoBlog)) {
             throw new IllegalArgumentException("No existe un blog con ese codigo.");
         }
 
-        blogs.get(codigoBlog).borrarComentario(codigoPublicacion, posicion);
+        return blogs.get(codigoBlog);
     }
 
     private void cargarDatosIniciales() {
         crearBlog("Cartas Yu-Gi-Oh", "Blog dedicado a estrategias, cartas y curiosidades de Yu-Gi-Oh");
         crearBlog("Futbol y censura", "Blog sobre casos curiosos donde el futbol ha sido restringido o prohibido en ciertos paises");
 
-        crearPublicacion(1, "Las mejores cartas trampa para defenderte", 
-                "En este post se comentan algunas cartas trampa utiles para frenar ataques y controlar el duelo.", 
+        crearPublicacion(1, "Las mejores cartas trampa para defenderte",
+                "En este post se comentan algunas cartas trampa utiles para frenar ataques y controlar el duelo.",
                 "Luis");
 
-        crearPublicacion(1, "Por que el Mago Oscuro sigue siendo tan famoso", 
-                "Aunque han salido cartas mas modernas, el Mago Oscuro sigue siendo una de las cartas mas representativas de Yu-Gi-Oh.", 
+        crearPublicacion(1, "Por que el Mago Oscuro sigue siendo tan famoso",
+                "Aunque han salido cartas mas modernas, el Mago Oscuro sigue siendo una de las cartas mas representativas de Yu-Gi-Oh.",
                 "Diego");
 
-        crearPublicacion(2, "Paises donde el futbol ha sido restringido temporalmente", 
-                "En algunos lugares se han aplicado restricciones al futbol por razones politicas, sociales o de seguridad.", 
+        crearPublicacion(2, "Paises donde el futbol ha sido restringido temporalmente",
+                "En algunos lugares se han aplicado restricciones al futbol por razones politicas, sociales o de seguridad.",
                 "Luis");
 
-        crearPublicacion(2, "Razones por las que un torneo puede ser prohibido", 
-                "Un torneo puede ser suspendido o prohibido por conflictos, falta de permisos o situaciones extraordinarias.", 
+        crearPublicacion(2, "Razones por las que un torneo puede ser prohibido",
+                "Un torneo puede ser suspendido o prohibido por conflictos, falta de permisos o situaciones extraordinarias.",
                 "Diego");
 
         agregarComentario(1, 1, "luis@mail.com", "192.168.0.10", "Buen tema, casi nunca se habla de las cartas trampa.");

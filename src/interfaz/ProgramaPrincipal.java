@@ -145,3 +145,43 @@ public class ProgramaPrincipal {
 
         } while (opcion != 3);
     }
+    private static void agregarComentario(int codigoBlog, int codigoPublicacion) {
+        System.out.print("Email: ");
+        String email = sc.nextLine();
+
+        System.out.print("IP: ");
+        String ip = sc.nextLine();
+
+        System.out.print("Texto del comentario: ");
+        String texto = sc.nextLine();
+
+        controladora.agregarComentario(codigoBlog, codigoPublicacion, email, ip, texto);
+        System.out.println("Comentario agregado correctamente.");
+    }
+
+    private static void borrarComentario(int codigoBlog, int codigoPublicacion) {
+        System.out.print("Posicion del comentario a borrar: ");
+        int posicion = Integer.parseInt(sc.nextLine());
+
+        controladora.borrarComentario(codigoBlog, codigoPublicacion, posicion);
+        System.out.println("Comentario borrado correctamente.");
+    }
+
+    private static void mostrarBlogs() {
+        Map<Integer, String> blogs = controladora.obtenerBlogs();
+
+        System.out.println("\n=== LISTADO DE BLOGS ===");
+        for (Integer codigo : blogs.keySet()) {
+            System.out.println(codigo + " - " + blogs.get(codigo));
+        }
+    }
+
+    private static void mostrarPublicaciones(int codigoBlog) {
+        Map<Integer, String> publicaciones = controladora.obtenerPublicaciones(codigoBlog);
+
+        System.out.println("\n=== LISTADO DE PUBLICACIONES ===");
+        for (Integer codigo : publicaciones.keySet()) {
+            System.out.println(codigo + " - " + publicaciones.get(codigo));
+        }
+    }
+}

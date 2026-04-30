@@ -4,23 +4,39 @@ import java.time.LocalDateTime;
 
 public class Comentario {
     private LocalDateTime fechaCreacion;
-    private String emailAutor;
-    private String direccionIp;
+    private String email;
+    private String ip;
     private String texto;
 
-    public Comentario(String emailAutor, String direccionIp, String texto) {
+    public Comentario(String email, String ip, String texto) {
         this.fechaCreacion = LocalDateTime.now();
-        this.emailAutor = emailAutor;
-        this.direccionIp = direccionIp;
+        this.email = email;
+        this.ip = ip;
         this.texto = texto;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public String getTexto() {
+        return texto;
     }
 
     @Override
     public String toString() {
         return "Comentario{" +
                 "fechaCreacion=" + fechaCreacion +
-                ", emailAutor='" + emailAutor + '\'' +
-                ", direccionIp='" + direccionIp + '\'' +
+                ", email='" + email + '\'' +
+                ", ip='" + ip + '\'' +
                 ", texto='" + texto + '\'' +
                 '}';
     }

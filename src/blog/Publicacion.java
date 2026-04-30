@@ -2,20 +2,20 @@ package blog;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Publicacion {
-    private static int contadorCodigo = 1;
+    private static int consecutivo = 1;
 
     private int codigo;
     private String titulo;
     private String texto;
     private String nombreCreador;
     private LocalDateTime fechaPublicacion;
-    private ArrayList<Comentario> comentarios;
+    private List<Comentario> comentarios;
 
     public Publicacion(String titulo, String texto, String nombreCreador) {
-        this.codigo = contadorCodigo;
-        contadorCodigo++;
+        this.codigo = consecutivo++;
         this.titulo = titulo;
         this.texto = texto;
         this.nombreCreador = nombreCreador;
@@ -31,33 +31,49 @@ public class Publicacion {
         return titulo;
     }
 
-    public void agregarComentario(String emailAutor, String direccionIp, String texto) {
-        Comentario nuevoComentario = new Comentario(emailAutor, direccionIp, texto);
-        comentarios.add(nuevoComentario);
+    public String getTexto() {
+        return texto;
     }
 
-    public void borrarComentario(int posicionComentario) {
-        if (posicionComentario >= 0 && posicionComentario < comentarios.size()) {
-            comentarios.remove(posicionComentario);
+    public String getNombreCreador() {
+        return nombreCreador;
+    }
+
+    public LocalDateTime getFechaPublicacion() {
+        return fechaPublicacion;
+    }
+
+    public void agregarComentario(String email, String ip, String texto) {
+        Comentario comentario = new Comentario(email, ip, texto);
+        comentarios.add(comentario);
+    }
+
+    public void borrarComentario(int posicion) {
+        if (posicion >= 0 && posicion < comentarios.size()) {
+            comentarios.remove(posicion);
         } else {
-            System.out.println("Posicion de comentario no valida.");
+            throw new IllegalArgumentException("La posicion del comentario no es valida.");
         }
     }
 
     @Override
     public String toString() {
-        String resultado = "Publicacion\n";
-        resultado += "Codigo: " + codigo + "\n";
-        resultado += "Titulo: " + titulo + "\n";
-        resultado += "Texto: " + texto + "\n";
-        resultado += "Nombre del creador: " + nombreCreador + "\n";
-        resultado += "Fecha de publicacion: " + fechaPublicacion + "\n";
-        resultado += "Comentarios:\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Codigo: ").append(codigo).append("\n");
+        sb.append("Titulo: ").append(titulo).append("\n");
+        sb.append("Texto: ").append(texto).append("\n");
+        sb.append("Creador: ").append(nombreCreador).append("\n");
+        sb.append("Fecha: ").append(fechaPublicacion).append("\n");
+        sb.append("Comentarios:\n");
 
-        for (int i = 0; i < comentarios.size(); i++) {
-            resultado += "[" + i + "] " + comentarios.get(i).toString() + "\n";
+        if (comentarios.isEmpty()) {
+            sb.append("  Sin comentarios\n");
+        } else {
+            for (int i = 0; i < comentarios.size(); i++) {
+                sb.append("  [").append(i).append("] ").append(comentarios.get(i)).append("\n");
+            }
         }
 
-        return resultado;
+        return sb.toString();
     }
 }

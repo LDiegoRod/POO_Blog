@@ -34,3 +34,27 @@ public class Controladora {
 
         return resultado;
     }
+    
+    public void crearPublicacion(int codigoBlog, String titulo, String texto, String nombreCreador) {
+        if (!blogs.containsKey(codigoBlog)) {
+            throw new IllegalArgumentException("No existe un blog con ese codigo.");
+        }
+
+        blogs.get(codigoBlog).crearPublicacion(titulo, texto, nombreCreador);
+    }
+
+    public Map<Integer, String> obtenerPublicaciones(int codigoBlog) {
+        if (!blogs.containsKey(codigoBlog)) {
+            throw new IllegalArgumentException("No existe un blog con ese codigo.");
+        }
+
+        return blogs.get(codigoBlog).obtenerTitulosPublicaciones();
+    }
+
+    public String obtenerPublicacion(int codigoBlog, int codigoPublicacion) {
+        if (!blogs.containsKey(codigoBlog)) {
+            throw new IllegalArgumentException("No existe un blog con ese codigo.");
+        }
+
+        return blogs.get(codigoBlog).obtenerPublicacion(codigoPublicacion);
+    }

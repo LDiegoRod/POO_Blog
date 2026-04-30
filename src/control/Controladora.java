@@ -58,3 +58,19 @@ public class Controladora {
 
         return blogs.get(codigoBlog).obtenerPublicacion(codigoPublicacion);
     }
+    public void agregarComentario(int codigoBlog, int codigoPublicacion, String email, String ip, String texto) {
+        if (!blogs.containsKey(codigoBlog)) {
+            throw new IllegalArgumentException("No existe un blog con ese codigo.");
+        }
+
+        blogs.get(codigoBlog).agregarComentario(codigoPublicacion, email, ip, texto);
+    }
+
+    public void borrarComentario(int codigoBlog, int codigoPublicacion, int posicion) {
+        if (!blogs.containsKey(codigoBlog)) {
+            throw new IllegalArgumentException("No existe un blog con ese codigo.");
+        }
+
+        blogs.get(codigoBlog).borrarComentario(codigoPublicacion, posicion);
+    }
+

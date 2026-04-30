@@ -1,8 +1,10 @@
 package blog;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class Blog {
     private static int consecutivo = 1;
@@ -11,14 +13,14 @@ public class Blog {
     private String nombre;
     private String descripcion;
     private LocalDateTime fechaCreacion;
-    private Map<Integer, Publicacion> publicaciones;
+    private List<Publicacion> publicaciones;
 
     public Blog(String nombre, String descripcion) {
         this.codigo = consecutivo++;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaCreacion = LocalDateTime.now();
-        this.publicaciones = new TreeMap<>();
+        this.publicaciones = new ArrayList<>();
     }
 
     public int getCodigo() {
@@ -46,38 +48,42 @@ public class Blog {
     }
 
     public void crearPublicacion(String titulo, String texto, String nombreCreador) {
-        Publicacion p = new Publicacion(titulo, texto, nombreCreador);
-        publicaciones.put(p.getCodigo(), p);
+        Publicacion publicacionNueva = new Publicacion(titulo, texto, nombreCreador);
+        publicaciones.add(publicacionNueva);
     }
 
     public Map<Integer, String> obtenerTitulosPublicaciones() {
-        Map<Integer, String> resultado = new TreeMap<>();
+        Map<Integer, String> resultado = new HashMap<>();
 
-        for (Publicacion p : publicaciones.values()) {
-            resultado.put(p.getCodigo(), p.getTitulo());
+        for (Publicacion publicacionActual : publicaciones) {
+            resultado.put(publicacionActual.getCodigo(), publicacionActual.getTitulo());
         }
 
         return resultado;
     }
 
     public String obtenerPublicacion(int codigoPublicacion) {
-        if (!publicaciones.containsKey(codigoPublicacion)) {
-            throw new IllegalArgumentException("No existe una publicacion con ese codigo.");
-        }
-        return publicaciones.get(codigoPublicacion).toString();
+        Publicacion publicacionBuscada = buscarPublicacion(codigoPublicacion);
+        return publicacionBuscada.toString();
     }
 
     public void agregarComentario(int codigoPublicacion, String email, String ip, String texto) {
-        if (!publicaciones.containsKey(codigoPublicacion)) {
-            throw new IllegalArgumentException("No existe una publicacion con ese codigo.");
-        }
-        publicaciones.get(codigoPublicacion).agregarComentario(email, ip, texto);
+        Publicacion publicacionBuscada = buscarPublicacion(codigoPublicacion);
+        publicacionBuscada.agregarComentario(email, ip, texto);
     }
 
     public void borrarComentario(int codigoPublicacion, int posicion) {
-        if (!publicaciones.containsKey(codigoPublicacion)) {
-            throw new IllegalArgumentException("No existe una publicacion con ese codigo.");
+        Publicacion publicacionBuscada = buscarPublicacion(codigoPublicacion);
+        publicacionBuscada.borrarComentario(posicion);
+    }
+
+    private Publicacion buscarPublicacion(int codigoPublicacion) {
+        for (Publicacion publicacionActual : publicaciones) {
+            if (publicacionActual.getCodigo() == codigoPublicacion) {
+                return publicacionActual;
+            }
         }
-        publicaciones.get(codigoPublicacion).borrarComentario(posicion);
+
+        throw new IllegalArgumentException("No existe una publicacion con ese codigo.");
     }
 }

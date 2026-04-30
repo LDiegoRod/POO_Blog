@@ -33,11 +33,11 @@ public class Comentario {
 
     @Override
     public String toString() {
-        return "Comentario{" +
-                "fechaCreacion=" + fechaCreacion +
-                ", email='" + email + '\'' +
-                ", ip='" + ip + '\'' +
-                ", texto='" + texto + '\'' +
-                '}';
+        String resultado = "";
+        resultado += "Fecha: " + fechaCreacion + "\n";
+        resultado += "Correo: " + email + "\n";
+        resultado += "IP: " + ip + "\n";
+        resultado += "Comentario: " + texto;
+        return resultado;
     }
 }

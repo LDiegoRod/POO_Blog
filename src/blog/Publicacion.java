@@ -49,28 +49,31 @@ public class Publicacion {
     }
 
     public void borrarComentario(int posicion) {
-        if (posicion >= 0 && posicion < comentarios.size()) {
-            comentarios.remove(posicion);
-        } else {
+        if (posicion < 0 || posicion >= comentarios.size()) {
             throw new IllegalArgumentException("La posicion del comentario no es valida.");
         }
+
+        comentarios.remove(posicion);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Codigo: ").append(codigo).append("\n");
+
+        sb.append("Publicacion #").append(codigo).append("\n");
         sb.append("Titulo: ").append(titulo).append("\n");
         sb.append("Texto: ").append(texto).append("\n");
-        sb.append("Creador: ").append(nombreCreador).append("\n");
-        sb.append("Fecha: ").append(fechaPublicacion).append("\n");
+        sb.append("Autor: ").append(nombreCreador).append("\n");
+        sb.append("Fecha de publicacion: ").append(fechaPublicacion).append("\n");
         sb.append("Comentarios:\n");
 
         if (comentarios.isEmpty()) {
-            sb.append("  Sin comentarios\n");
+            sb.append("No hay comentarios registrados.\n");
         } else {
             for (int i = 0; i < comentarios.size(); i++) {
-                sb.append("  [").append(i).append("] ").append(comentarios.get(i)).append("\n");
+                Comentario comentarioActual = comentarios.get(i);
+                sb.append("Comentario ").append(i).append(":\n");
+                sb.append(comentarioActual.toString()).append("\n");
             }
         }
 

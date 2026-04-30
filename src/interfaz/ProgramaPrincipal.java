@@ -18,8 +18,8 @@ public class ProgramaPrincipal {
             System.out.println("2. Trabajar con blog");
             System.out.println("3. Borrar blog");
             System.out.println("4. Salir");
-            System.out.print("Seleccione una opcion: ");
-            opcion = Integer.parseInt(sc.nextLine());
+
+            opcion = leerEntero("Seleccione una opcion: ");
 
             try {
                 switch (opcion) {
@@ -46,6 +46,7 @@ public class ProgramaPrincipal {
 
         sc.close();
     }
+
     private static void crearBlog() {
         System.out.print("Nombre del blog: ");
         String nombre = sc.nextLine();
@@ -59,8 +60,7 @@ public class ProgramaPrincipal {
 
     private static void borrarBlog() {
         mostrarBlogs();
-        System.out.print("Codigo del blog a borrar: ");
-        int codigo = Integer.parseInt(sc.nextLine());
+        int codigo = leerEntero("Codigo del blog a borrar: ");
 
         controladora.borrarBlog(codigo);
         System.out.println("Blog borrado correctamente.");
@@ -68,8 +68,14 @@ public class ProgramaPrincipal {
 
     private static void menuBlogs() {
         mostrarBlogs();
-        System.out.print("Seleccione el codigo del blog con el que desea trabajar: ");
-        int codigoBlog = Integer.parseInt(sc.nextLine());
+        int codigoBlog = leerEntero("Seleccione el codigo del blog con el que desea trabajar: ");
+
+        try {
+            controladora.obtenerPublicaciones(codigoBlog);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return;
+        }
 
         int opcion;
         do {
@@ -77,8 +83,8 @@ public class ProgramaPrincipal {
             System.out.println("1. Crear publicacion");
             System.out.println("2. Ver publicacion y comentarios");
             System.out.println("3. Regresar");
-            System.out.print("Seleccione una opcion: ");
-            opcion = Integer.parseInt(sc.nextLine());
+
+            opcion = leerEntero("Seleccione una opcion: ");
 
             switch (opcion) {
                 case 1:
@@ -94,6 +100,7 @@ public class ProgramaPrincipal {
             }
         } while (opcion != 3);
     }
+
     private static void crearPublicacion(int codigoBlog) {
         System.out.print("Titulo: ");
         String titulo = sc.nextLine();
@@ -111,8 +118,7 @@ public class ProgramaPrincipal {
     private static void menuPublicaciones(int codigoBlog) {
         mostrarPublicaciones(codigoBlog);
 
-        System.out.print("Seleccione el codigo de la publicacion: ");
-        int codigoPublicacion = Integer.parseInt(sc.nextLine());
+        int codigoPublicacion = leerEntero("Seleccione el codigo de la publicacion: ");
 
         System.out.println("\n=== PUBLICACION ===");
         System.out.println(controladora.obtenerPublicacion(codigoBlog, codigoPublicacion));
@@ -122,8 +128,8 @@ public class ProgramaPrincipal {
             System.out.println("1. Crear comentario");
             System.out.println("2. Borrar comentario");
             System.out.println("3. Regresar");
-            System.out.print("Seleccione una opcion: ");
-            opcion = Integer.parseInt(sc.nextLine());
+
+            opcion = leerEntero("Seleccione una opcion: ");
 
             switch (opcion) {
                 case 1:
@@ -145,6 +151,18 @@ public class ProgramaPrincipal {
 
         } while (opcion != 3);
     }
+
+    private static int leerEntero(String mensaje) {
+        while (true) {
+            try {
+                System.out.print(mensaje);
+                return Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Error: debe ingresar un numero entero.");
+            }
+        }
+    }
+
     private static void agregarComentario(int codigoBlog, int codigoPublicacion) {
         System.out.print("Email: ");
         String email = sc.nextLine();
@@ -160,8 +178,7 @@ public class ProgramaPrincipal {
     }
 
     private static void borrarComentario(int codigoBlog, int codigoPublicacion) {
-        System.out.print("Posicion del comentario a borrar: ");
-        int posicion = Integer.parseInt(sc.nextLine());
+        int posicion = leerEntero("Posicion del comentario a borrar: ");
 
         controladora.borrarComentario(codigoBlog, codigoPublicacion, posicion);
         System.out.println("Comentario borrado correctamente.");

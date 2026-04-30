@@ -94,3 +94,54 @@ public class ProgramaPrincipal {
             }
         } while (opcion != 3);
     }
+    private static void crearPublicacion(int codigoBlog) {
+        System.out.print("Titulo: ");
+        String titulo = sc.nextLine();
+
+        System.out.print("Texto: ");
+        String texto = sc.nextLine();
+
+        System.out.print("Nombre del creador: ");
+        String nombre = sc.nextLine();
+
+        controladora.crearPublicacion(codigoBlog, titulo, texto, nombre);
+        System.out.println("Publicacion creada correctamente.");
+    }
+
+    private static void menuPublicaciones(int codigoBlog) {
+        mostrarPublicaciones(codigoBlog);
+
+        System.out.print("Seleccione el codigo de la publicacion: ");
+        int codigoPublicacion = Integer.parseInt(sc.nextLine());
+
+        System.out.println("\n=== PUBLICACION ===");
+        System.out.println(controladora.obtenerPublicacion(codigoBlog, codigoPublicacion));
+
+        int opcion;
+        do {
+            System.out.println("1. Crear comentario");
+            System.out.println("2. Borrar comentario");
+            System.out.println("3. Regresar");
+            System.out.print("Seleccione una opcion: ");
+            opcion = Integer.parseInt(sc.nextLine());
+
+            switch (opcion) {
+                case 1:
+                    agregarComentario(codigoBlog, codigoPublicacion);
+                    break;
+                case 2:
+                    borrarComentario(codigoBlog, codigoPublicacion);
+                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("Opcion invalida.");
+            }
+
+            if (opcion == 1 || opcion == 2) {
+                System.out.println("\n=== PUBLICACION ACTUALIZADA ===");
+                System.out.println(controladora.obtenerPublicacion(codigoBlog, codigoPublicacion));
+            }
+
+        } while (opcion != 3);
+    }

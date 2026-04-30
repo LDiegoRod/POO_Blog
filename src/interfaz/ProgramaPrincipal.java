@@ -46,3 +46,51 @@ public class ProgramaPrincipal {
 
         sc.close();
     }
+    private static void crearBlog() {
+        System.out.print("Nombre del blog: ");
+        String nombre = sc.nextLine();
+
+        System.out.print("Descripcion del blog: ");
+        String descripcion = sc.nextLine();
+
+        controladora.crearBlog(nombre, descripcion);
+        System.out.println("Blog creado correctamente.");
+    }
+
+    private static void borrarBlog() {
+        mostrarBlogs();
+        System.out.print("Codigo del blog a borrar: ");
+        int codigo = Integer.parseInt(sc.nextLine());
+
+        controladora.borrarBlog(codigo);
+        System.out.println("Blog borrado correctamente.");
+    }
+
+    private static void menuBlogs() {
+        mostrarBlogs();
+        System.out.print("Seleccione el codigo del blog con el que desea trabajar: ");
+        int codigoBlog = Integer.parseInt(sc.nextLine());
+
+        int opcion;
+        do {
+            System.out.println("\n=== MENU BLOG ===");
+            System.out.println("1. Crear publicacion");
+            System.out.println("2. Ver publicacion y comentarios");
+            System.out.println("3. Regresar");
+            System.out.print("Seleccione una opcion: ");
+            opcion = Integer.parseInt(sc.nextLine());
+
+            switch (opcion) {
+                case 1:
+                    crearPublicacion(codigoBlog);
+                    break;
+                case 2:
+                    menuPublicaciones(codigoBlog);
+                    break;
+                case 3:
+                    break;
+                default:
+                    System.out.println("Opcion invalida.");
+            }
+        } while (opcion != 3);
+    }
